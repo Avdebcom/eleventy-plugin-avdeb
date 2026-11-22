@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm pack --dry-run
+
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Build the demo site against the live API
+        working-directory: demo
+        env:
+          AVDEB_REF_CODE: CITEST
+        run: |
+          npx @11ty/eleventy
+          grep -q 'avdeb--carousel' _site/posts/small-gifts/index.html
+          grep -q '?ref=CITEST' _site/posts/small-gifts/index.html
+          grep -q '/assets/avdeb/avdeb.css' _site/posts/small-gifts/index.html
+          test -f _site/assets/avdeb/avdeb.js

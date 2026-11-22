@@ -1,0 +1,9 @@
+---
+layout: base.njk
+title: Liquid
+---
+{% avdebProducts 'https://avdeb.com/category/stickers/ layout="grid" limit="3" heading="Stickers"' %}
+{% avdebProduct "https://avdeb.com/store/custom-qr-code-keychain/" %}
+{% avdebButton 'href="/category/stickers/" label="All stickers" variant="outline"' %}
+{% assign result = "https://avdeb.com/category/stickers/" | avdebData %}
+<ul id="custom">{% for card in result.cards limit: 2 %}<li><a href="{{ card.href }}">{{ card.title }}</a> {{ card.price }}</li>{% endfor %}</ul>

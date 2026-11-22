@@ -1,0 +1,7 @@
+---
+layout: base.njk
+title: Data
+---
+{% set result = "https://avdeb.com/category/stickers/" | avdebData({ limit: 2 }) %}
+<ul id="custom">{% for card in result.cards %}<li><a href="{{ card.href }}">{{ card.title }}</a> {{ card.price }}</li>{% endfor %}</ul>
+{{ "<p>{avdeb-button href=\"/creators/\" label=\"Meet the makers\"}</p>" | avdeb | safe }}
