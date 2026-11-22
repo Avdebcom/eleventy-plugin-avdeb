@@ -1,9 +1,8 @@
 import avdeb from "../index.js";
 
 export default function (eleventyConfig) {
+	// The referral code comes from AVDEB_REF_CODE (environment or .env).
 	eleventyConfig.addPlugin(avdeb, {
-		// Or set AVDEB_REF_CODE / AVDEB_SECRET_KEY in the environment or a .env file.
-		refCode: process.env.AVDEB_REF_CODE ?? "YOURCODE",
 		accentColor: "#c2410c",
 	});
 	eleventyConfig.addPassthroughCopy("style.css");
